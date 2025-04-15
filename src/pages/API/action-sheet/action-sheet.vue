@@ -8,54 +8,54 @@
 		</view>
 	</view>
 </template>
-<script>
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
 
-	export default {
-		data() {
-			return {
-				title: 'action-sheet',
-				buttonRect: {}
-			}
-		},
-		// #ifdef H5
-		onReady() {
-			this.getNodeInfo()
-			window.addEventListener('resize', this.getNodeInfo)
-		},
-		beforeDestroy() {
-			window.removeEventListener('resize', this.getNodeInfo)
-		},
-		// #endif
-		methods: {
-			actionSheetTap() {
-				const that = this
-				uni.showActionSheet({
-					title: '标题',
-					itemList: ['item1', 'item2', 'item3', 'item4'],
-					popover: {
-						// 104: navbar + topwindow 高度，暂时 fix createSelectorQuery 在 pc 上获取 top 不准确的 bug
-						top: that.buttonRect.top + 104  + that.buttonRect.height,
-						left: that.buttonRect.left + that.buttonRect.width / 2
-					},
-					success: (e) => {
-						console.log(e.tapIndex);
-						uni.showToast({
-							title: "点击了第" + e.tapIndex + "个选项",
-							icon: "none"
-						})
-					}
-				})
-			},
-			// #ifdef H5
-			getNodeInfo() {
-				uni.createSelectorQuery().select('.target').boundingClientRect().exec((ret) => {
-					const rect = ret[0]
-					if (rect) {
-						this.buttonRect = rect
-					}
-				});
-			}
-			// #endif
-		}
-	}
+// 响应式数据
+const title = ref('action-sheet')
+const buttonRect = ref({})
+
+// 操作方法
+const actionSheetTap = () => {
+  uni.showActionSheet({
+    title: '标题',
+    itemList: ['item1', 'item2', 'item3', 'item4'],
+    popover: {
+      // 104: navbar + topwindow 高度（保持原计算逻辑）
+      top: buttonRect.value.top + 104 + buttonRect.value.height,
+      left: buttonRect.value.left + buttonRect.value.width / 2
+    },
+    success: (e) => {
+      console.log(e.tapIndex)
+      uni.showToast({
+        title: `点击了第${e.tapIndex}个选项`,
+        icon: "none"
+      })
+    }
+  })
+}
+
+// #ifdef H5
+// H5 特定逻辑
+const getNodeInfo = () => {
+  uni.createSelectorQuery()
+    .select('.target')
+    .boundingClientRect()
+    .exec((ret) => {
+      const rect = ret[0]
+      if (rect) {
+        buttonRect.value = rect
+      }
+    })
+}
+
+onMounted(() => {
+  getNodeInfo()
+  window.addEventListener('resize', getNodeInfo)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', getNodeInfo)
+})
+// #endif
 </script>
