@@ -1,15 +1,12 @@
 {
-  "name": "xhs-mp",
+  "name": "hello-uniapp",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "uni -p mp-weixin",
-    "test": "uni -p mp-xhs",
-    "hstest": "uni -p mp-weixin",
-    "stg": "uni -p mp-weixin",
-    "admin": "uni -p mp-weixin ",
-    "build:dev": "uni build -p mp-weixin",
-    "build:test": "uni build -p mp-xhs"
+    "dev:mp-weixin": "uni -p mp-weixin",
+    "dev:mp-xhs": "uni -p mp-xhs",
+    "build:mp-weixin": "uni build -p mp-weixin",
+    "build:mp-xhs": "uni build -p mp-xhs"
   },
   "dependencies": {
     "@dcloudio/uni-app": "3.0.0-3090920231225001",

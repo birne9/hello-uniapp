@@ -1,1 +1,0 @@
-<uni-indexed-list xhs:if="{{b}}" bindclick="{{a}}" u-i="dc2eabd8-0" bind:__l="__l" u-p="{{b}}"/>

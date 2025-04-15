@@ -1,1 +1,0 @@
-<text xhs:if="{{a}}" class="{{('uni-tag') + ' ' + 'data-v-873c359d' + ' ' + c}}" style="{{d}}" bindtap="{{e}}">{{b}}</text>
