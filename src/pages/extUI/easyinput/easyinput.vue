@@ -64,37 +64,31 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-				value: '',
-				password: '',
-				placeholderStyle: "color:#2979FF;font-size:14px",
-				styles: {
-					color: '#2979FF',
-					borderColor: '#2979FF'
-				}
-			}
+<script setup>
+import { ref } from 'vue';
 
-		},
-		onLoad() {},
-		onReady() {},
-		methods: {
-			input(e) {
-				console.log('输入内容：', e);
-			},
-			iconClick(type) {
-				uni.showToast({
-					title: `点击了${type==='prefix'?'左侧':'右侧'}的图标`,
-					icon: 'none'
-				})
-			}
-		}
-	}
+const value = ref('');
+const password = ref('');
+const placeholderStyle = ref("color:#2979FF;font-size:14px");
+const styles = ref({
+  color: '#2979FF',
+  borderColor: '#2979FF',
+});
+
+function input(e) {
+  console.log('输入内容：', e);
+}
+
+function iconClick(type) {
+  uni.showToast({
+    title: `点击了${type === 'prefix' ? '左侧' : '右侧'}的图标`,
+    icon: 'none',
+  });
+}
 </script>
 
-<style lang="scss">
+
+<style lang="scss" scoped>
 	.uni-mt-5 {
 		margin-top: 5px;
 	}

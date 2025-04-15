@@ -45,117 +45,108 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				UNITS: {
-					'年': 31557600000,
-					'月': 2629800000,
-					'天': 86400000,
-					'小时': 3600000,
-					'分钟': 60000,
-					'秒': 1000
-				},
-				listData: [],
-				avatarList: [{
-					url: '/static/logo.png'
-				}, {
-					url: '/static/logo.png'
-				}, {
-					url: '/static/logo.png'
-				}]
-			}
-		},
-		onLoad() {
-			this.getList()
-		},
-		methods: {
-			onClick() {
-				uni.showToast({
-					title: '列表被点击'
-				})
-			},
-			avatar(count) {
-				let arr = []
-				this.avatarList.forEach((item, index) => {
-					if (index < count) {
-						arr.push(item)
-					}
-				})
-				return arr
-			},
-			getList() {
-				var data = {
-					column: 'id,post_id,title,author_name,cover,published_at' //需要的字段名
-				};
+<script setup>
+import { ref, onMounted } from 'vue'
 
-				uni.request({
-					url: 'https://unidemo.dcloud.net.cn/api/news',
-					data: data,
-					success: data => {
-						if (data.statusCode == 200) {
-							let list = this.setTime(data.data);
-							list = this.reload ? list : this.listData.concat(list);
-							list.map(item => {
-								item.text = Math.floor(Math.random() * (1 - 20) + 20)
-								return item
-							})
-							this.listData = this.getRandomArrayElements(list, 3)
-						}
-					},
-					fail: (data, code) => {
-						console.log('fail' + JSON.stringify(data));
-					}
-				});
-			},
-			getRandomArrayElements(arr, count) {
-				var shuffled = arr.slice(0),
-					i = arr.length,
-					min = i - count,
-					temp, index;
-				while (i-- > min) {
-					index = Math.floor((i + 1) * Math.random());
-					temp = shuffled[index];
-					shuffled[index] = shuffled[i];
-					shuffled[i] = temp;
-				}
-				return shuffled.slice(min);
-			},
-			setTime(items) {
-				var newItems = [];
-				items.forEach(e => {
-					newItems.push({
-						author_name: e.author_name,
-						cover: e.cover,
-						id: e.id,
-						post_id: e.post_id,
-						published_at: this.format(e.published_at),
-						title: e.title
-					});
-				});
-				return newItems;
-			},
-			format(dateStr) {
-				var date = this.parse(dateStr)
-				var diff = Date.now() - date.getTime();
-				if (diff < this.UNITS['天']) {
-					return this.humanize(diff);
-				}
-				var _format = function(number) {
-					return (number < 10 ? ('0' + number) : number);
-				};
-				return date.getFullYear() + '-' + _format(date.getMonth() + 1) + '-' + _format(date.getDate()) + ' ' +
-					_format(date.getHours()) + ':' + _format(date.getMinutes());
-			},
-			parse(str) { //将"yyyy-mm-dd HH:MM:ss"格式的字符串，转化为一个Date对象
-				var a = str.split(/[^0-9]/);
-				return new Date(a[0], a[1] - 1, a[2], a[3], a[4], a[5]);
-			},
+const UNITS = {
+  '年': 31557600000,
+  '月': 2629800000,
+  '天': 86400000,
+  '小时': 3600000,
+  '分钟': 60000,
+  '秒': 1000
+}
 
-		}
-	}
+const listData = ref([])
+const avatarList = ref([
+  { url: '/static/logo.png' },
+  { url: '/static/logo.png' },
+  { url: '/static/logo.png' }
+])
+
+const getList = () => {
+  const data = {
+    column: 'id,post_id,title,author_name,cover,published_at' //需要的字段名
+  }
+
+  uni.request({
+    url: 'https://unidemo.dcloud.net.cn/api/news',
+    data: data,
+    success: ({ data }) => {
+      if (data.statusCode === 200) {
+        let list = setTime(data.data)
+        list = listData.value.length === 0 ? list : listData.value.concat(list)
+        list.forEach(item => {
+          item.text = Math.floor(Math.random() * (1 - 20) + 20)
+        })
+        listData.value = getRandomArrayElements(list, 3)
+      }
+    },
+    fail: (data) => {
+      console.log('fail', data)
+    }
+  })
+}
+
+const getRandomArrayElements = (arr, count) => {
+  const shuffled = arr.slice()
+  let i = arr.length
+  const min = i - count
+  let temp
+  let index
+  while (i-- > min) {
+    index = Math.floor((i + 1) * Math.random())
+    temp = shuffled[index]
+    shuffled[index] = shuffled[i]
+    shuffled[i] = temp
+  }
+  return shuffled.slice(min)
+}
+
+const setTime = (items) => {
+  return items.map(item => ({
+    author_name: item.author_name,
+    cover: item.cover,
+    id: item.id,
+    post_id: item.post_id,
+    published_at: format(item.published_at),
+    title: item.title
+  }))
+}
+
+const format = (dateStr) => {
+  const date = parse(dateStr)
+  const diff = Date.now() - date.getTime()
+  if (diff < UNITS['天']) {
+    return humanize(diff)
+  }
+  const _format = (number) => (number < 10 ? '0' + number : number)
+  return `${date.getFullYear()}-${_format(date.getMonth() + 1)}-${_format(date.getDate())} ${_format(date.getHours())}:${_format(date.getMinutes())}`
+}
+
+const parse = (str) => {
+  const a = str.split(/[^0-9]/)
+  return new Date(a[0], a[1] - 1, a[2], a[3], a[4], a[5])
+}
+
+const humanize = (diff) => {
+  // Implement your humanize logic if needed
+  return `${Math.floor(diff / UNITS['小时'])} hours ago`
+}
+
+const avatar = (count) => {
+  return avatarList.value.slice(0, count)
+}
+
+const onClick = () => {
+  uni.showToast({
+    title: '列表被点击'
+  })
+}
+
+onMounted(() => {
+  getList()
+})
 </script>
 
 <style lang="scss" >

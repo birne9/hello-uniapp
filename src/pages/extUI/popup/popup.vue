@@ -91,66 +91,76 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-				type: 'center',
-				msgType: 'success',
-				messageText: '这是一条成功提示',
-				value: ''
-			}
-		},
-		onReady() {},
-		methods: {
-			change(e) {
-				console.log('当前模式：' + e.type + ',状态：' + e.show);
-			},
-			toggle(type) {
-				this.type = type
-				// open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
-				this.$refs.popup.open(type)
-			},
-			messageToggle(type) {
-				this.msgType = type
-				this.messageText = `这是一条${type}消息提示`
-				this.$refs.message.open()
-			},
-			dialogToggle(type) {
-				this.msgType = type
-				this.$refs.alertDialog.open()
-			},
-			dialogConfirm() {
-				console.log('点击确认')
-				this.messageText = `点击确认了 ${this.msgType} 窗口`
-				this.$refs.message.open()
-			},
-			inputDialogToggle() {
-				this.$refs.inputDialog.open()
-			},
-			dialogClose() {
-				console.log('点击关闭')
-			},
-			dialogInputConfirm(val) {
-				uni.showLoading({
-					title: '3秒后会关闭'
-				})
+<script setup>
+import { ref } from 'vue'
 
-				setTimeout(() => {
-					uni.hideLoading()
-					console.log(val)
-					this.value = val
-					// 关闭窗口后，恢复默认内容
-					this.$refs.inputDialog.close()
-				}, 3000)
-			},
-			shareToggle() {
-				this.$refs.share.open()
-			}
-		}
-	}
+const type = ref('center')
+const msgType = ref('success')
+const messageText = ref('这是一条成功提示')
+const value = ref('')
+
+const toggle = (typeValue) => {
+  type.value = typeValue
+  // open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
+  // Assuming $refs are set up correctly in the template
+  popup.value.open(typeValue)
+}
+
+const messageToggle = (typeValue) => {
+  msgType.value = typeValue
+  messageText.value = `这是一条${typeValue}消息提示`
+  // Assuming $refs are set up correctly in the template
+  message.value.open()
+}
+
+const dialogToggle = (typeValue) => {
+  msgType.value = typeValue
+  // Assuming $refs are set up correctly in the template
+  alertDialog.value.open()
+}
+
+const dialogConfirm = () => {
+  console.log('点击确认')
+  messageText.value = `点击确认了 ${msgType.value} 窗口`
+  message.value.open()
+}
+
+const inputDialogToggle = () => {
+  // Assuming $refs are set up correctly in the template
+  inputDialog.value.open()
+}
+
+const dialogClose = () => {
+  console.log('点击关闭')
+}
+
+const dialogInputConfirm = (val) => {
+  uni.showLoading({
+    title: '3秒后会关闭'
+  })
+
+  setTimeout(() => {
+    uni.hideLoading()
+    console.log(val)
+    value.value = val
+    // 关闭窗口后，恢复默认内容
+    inputDialog.value.close()
+  }, 3000)
+}
+
+const shareToggle = () => {
+  // Assuming $refs are set up correctly in the template
+  share.value.open()
+}
+
+// Assuming you have references to these components in the template
+const popup = ref(null)
+const message = ref(null)
+const alertDialog = ref(null)
+const inputDialog = ref(null)
+const share = ref(null)
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 	@mixin flex {
 		/* #ifndef APP-NVUE */
 		display: flex;

@@ -28,38 +28,36 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				current: 3,
-				total: 10,
-				pageSize: 10
-			}
-		},
-		mounted() {
-			setTimeout(() => {
-				this.current = 5
-			}, 3000)
-		},
-		methods: {
-			add() {
-				this.total += 10
-			},
-			reset() {
-				this.total = 0
-				this.current = 1
-			},
-			change(e) {
-				console.log(e)
-				this.current = e.current
-			}
-		}
-	}
+<script setup>
+import { ref, onMounted } from 'vue'
+
+const current = ref(3)
+const total = ref(10)
+const pageSize = ref(10)
+
+onMounted(() => {
+  setTimeout(() => {
+    current.value = 5
+  }, 3000)
+})
+
+const add = () => {
+  total.value += 10
+}
+
+const reset = () => {
+  total.value = 0
+  current.value = 1
+}
+
+const change = (e) => {
+  console.log(e)
+  current.value = e.current
+}
 </script>
 
-<style lang="scss">
+
+<style lang="scss" scoped>
 	.example-body {
 		/* #ifndef APP-NVUE */
 		display: block;

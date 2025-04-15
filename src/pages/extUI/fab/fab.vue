@@ -19,99 +19,100 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				title: 'uni-fab',
-				directionStr: '垂直',
-				horizontal: 'left',
-				vertical: 'bottom',
-				direction: 'horizontal',
-				pattern: {
-					color: '#7A7E83',
-					backgroundColor: '#fff',
-					selectedColor: '#007AFF',
-					buttonColor: '#007AFF',
-					iconColor: '#fff'
-				},
-				is_color_type: false,
-				content: [{
-						iconPath: '/static/image.png',
-						selectedIconPath: '/static/image-active.png',
-						text: '相册',
-						active: false
-					},
-					{
-						iconPath: '/static/home.png',
-						selectedIconPath: '/static/home-active.png',
-						text: '首页',
-						active: false
-					},
-					{
-						iconPath: '/static/star.png',
-						selectedIconPath: '/static/star-active.png',
-						text: '收藏',
-						active: false
-					}
-				]
-			}
-		},
-		onBackPress() {
-			if (this.$refs.fab.isShow) {
-				this.$refs.fab.close()
-				return true
-			}
-			return false
-		},
-		methods: {
-			trigger(e) {
-				console.log(e)
-				this.content[e.index].active = !e.item.active
-				uni.showModal({
-					title: '提示',
-					content: `您${this.content[e.index].active ? '选中了' : '取消了'}${e.item.text}`,
-					success: function(res) {
-						if (res.confirm) {
-							console.log('用户点击确定')
-						} else if (res.cancel) {
-							console.log('用户点击取消')
-						}
-					}
-				})
-			},
-			fabClick() {
-				uni.showToast({
-					title: '点击了悬浮按钮',
-					icon: 'none'
-				})
-			},
-			switchBtn(hor, ver) {
-				if (hor === 0) {
-					this.direction = this.direction === 'horizontal' ? 'vertical' : 'horizontal'
-					this.directionStr = this.direction === 'horizontal' ? '垂直' : '水平'
-				} else {
-					this.horizontal = hor
-					this.vertical = ver
-				}
-				this.$forceUpdate()
-			},
-			switchColor() {
-				this.is_color_type = !this.is_color_type
-				if (this.is_color_type) {
-					this.pattern.iconColor = '#aaa'
-					this.pattern.buttonColor = '#fff'
-				} else {
-					this.pattern.iconColor = '#fff'
-					this.pattern.buttonColor = '#007AFF'
-				}
-			}
-		}
-	}
+<script setup>
+import { ref } from 'vue';
+
+// Reactive data variables
+const title = ref('uni-fab');
+const directionStr = ref('垂直');
+const horizontal = ref('left');
+const vertical = ref('bottom');
+const direction = ref('horizontal');
+const pattern = ref({
+  color: '#7A7E83',
+  backgroundColor: '#fff',
+  selectedColor: '#007AFF',
+  buttonColor: '#007AFF',
+  iconColor: '#fff',
+});
+const is_color_type = ref(false);
+const content = ref([
+  {
+    iconPath: '/static/image.png',
+    selectedIconPath: '/static/image-active.png',
+    text: '相册',
+    active: false,
+  },
+  {
+    iconPath: '/static/home.png',
+    selectedIconPath: '/static/home-active.png',
+    text: '首页',
+    active: false,
+  },
+  {
+    iconPath: '/static/star.png',
+    selectedIconPath: '/static/star-active.png',
+    text: '收藏',
+    active: false,
+  },
+]);
+
+// Methods
+function onBackPress() {
+  const fab = $refs.fab;
+  if (fab.isShow) {
+    fab.close();
+    return true;
+  }
+  return false;
+}
+
+function trigger(e) {
+  console.log(e);
+  content.value[e.index].active = !e.item.active;
+  uni.showModal({
+    title: '提示',
+    content: `您${content.value[e.index].active ? '选中了' : '取消了'}${e.item.text}`,
+    success: (res) => {
+      if (res.confirm) {
+        console.log('用户点击确定');
+      } else if (res.cancel) {
+        console.log('用户点击取消');
+      }
+    },
+  });
+}
+
+function fabClick() {
+  uni.showToast({
+    title: '点击了悬浮按钮',
+    icon: 'none',
+  });
+}
+
+function switchBtn(hor, ver) {
+  if (hor === 0) {
+    direction.value = direction.value === 'horizontal' ? 'vertical' : 'horizontal';
+    directionStr.value = direction.value === 'horizontal' ? '垂直' : '水平';
+  } else {
+    horizontal.value = hor;
+    vertical.value = ver;
+  }
+}
+
+function switchColor() {
+  is_color_type.value = !is_color_type.value;
+  if (is_color_type.value) {
+    pattern.value.iconColor = '#aaa';
+    pattern.value.buttonColor = '#fff';
+  } else {
+    pattern.value.iconColor = '#fff';
+    pattern.value.buttonColor = '#007AFF';
+  }
+}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.warp {
 		padding: 10px;
 	}

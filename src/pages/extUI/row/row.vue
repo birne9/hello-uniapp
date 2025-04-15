@@ -171,15 +171,12 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-				gutter: 0,
-				nvueWidth: 730
-			}
-		}
-	}
+<script setup>
+import {ref} from 'vue'
+const gutter = ref(0)
+const nvueWidth = ref(730)
+
+	
 </script>
 
 <style lang="scss">

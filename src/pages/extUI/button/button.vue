@@ -1,6 +1,5 @@
 <template>
 	<view class="container">
-		<!-- 暂时不支持 nvue -->
 		<uni-card :is-shadow="false" is-full>
 			<text class="uni-h6">使用 '.uni-btn' 样式，可对内置button组件设置样式</text>
 		</uni-card>
@@ -89,16 +88,10 @@
 		</uni-section>
 	</view>
 </template>
-<script>
-	export default {
-		data() {
-			return {}
-		},
-		onLoad() {},
-		methods: {}
-	}
+<script setup> 
+	
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 	.hover-class-test {
 		color: red;
 		border: 1px red solid;

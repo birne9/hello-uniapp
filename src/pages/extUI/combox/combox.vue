@@ -26,22 +26,15 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				candidates: ['北京', '南京', '东京', '武汉', '天津', '上海', '海口'],
-				city: ''
-			}
-		},
-		methods: {
+<script setup>
+import { ref } from 'vue';
 
-		}
-	}
+const candidates = ref(['北京', '南京', '东京', '武汉', '天津', '上海', '海口']);
+const city = ref('');
 </script>
 
-<style lang="scss">
+
+<style lang="scss" scoped>
 	.example-body {
 		padding: 12px;
 		background-color: #FFFFFF;

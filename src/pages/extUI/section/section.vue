@@ -19,22 +19,11 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-			}
-		},
-		onReady() {
-
-		},
-		methods: {
-
-		}
-	}
+<script setup>
+	
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   $uni-success: #18bc37 !default;
 
 	.uni-wrap {

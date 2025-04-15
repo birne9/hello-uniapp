@@ -25,20 +25,12 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-				now: Date.now()
-			}
-		},
-		methods: {
-
-		}
-	}
+<script setup>
+	import { ref } from 'vue'
+	const now=ref(Date.now())
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.example-body {
 		display: flex;
 		flex-direction: column;

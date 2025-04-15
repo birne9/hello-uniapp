@@ -49,31 +49,29 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				value: 0,
-				customStyle: {
-					backgroundColor: '#62ed0d',
-					color: '#fff'
-				}
-			};
-		},
-		mounted() {
-			const timer = setInterval(() => {
-				if (this.value >= 199) {
-					clearInterval(timer)
-					return
-				}
-				this.value++
-			}, 100)
-		}
-	};
+<script setup>
+import { ref, onMounted } from 'vue'
+
+// 响应式数据
+const value = ref(0)
+const customStyle = ref({
+  backgroundColor: '#62ed0d',
+  color: '#fff'
+})
+
+// 生命周期钩子
+onMounted(() => {
+  const timer = setInterval(() => {
+    if (value.value >= 199) {
+      clearInterval(timer)
+      return
+    }
+    value.value++
+  }, 100)
+})
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	/* #ifdef MP-ALIPAY */
 	.uni-badge {
 		margin-left: 20rpx;

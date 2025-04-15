@@ -116,31 +116,27 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				type: "default",
-				inverted: false,
-			};
-		},
-		methods: {
-			setType() {
-				let types = ["default", "primary", "success", "warning", "error"];
-				let index = types.indexOf(this.type);
-				types.splice(index, 1);
-				let randomIndex = Math.floor(Math.random() * 4);
-				this.type = types[randomIndex];
-			},
-			setInverted() {
-				this.inverted = !this.inverted;
-			},
-		},
-	};
+
+<script setup>
+import { ref } from 'vue'
+
+const type = ref("default")
+const inverted = ref(false)
+
+const setType = () => {
+  let types = ["default", "primary", "success", "warning", "error"]
+  let index = types.indexOf(type.value)
+  types.splice(index, 1)
+  let randomIndex = Math.floor(Math.random() * 4)
+  type.value = types[randomIndex]
+}
+
+const setInverted = () => {
+  inverted.value = !inverted.value
+}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.example-body {
 		/* #ifndef APP-PLUS-NVUE */
 		display: flex;

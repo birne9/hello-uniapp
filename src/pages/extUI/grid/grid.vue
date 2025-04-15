@@ -124,93 +124,55 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				dynamicList: [],
-				list: [{
-						url: '/static/c1.png',
-						text: 'Grid 1',
-						badge: '0',
-						type: "primary"
-					},
-					{
-						url: '/static/c2.png',
-						text: 'Grid 2',
-						badge: '1',
-						type: "success"
-					},
-					{
-						url: '/static/c3.png',
-						text: 'Grid 3',
-						badge: '99',
-						type: "warning"
-					},
-					{
-						url: '/static/c4.png',
-						text: 'Grid 4',
-						badge: '2',
-						type: "error"
-					},
-					{
-						url: '/static/c5.png',
-						text: 'Grid 5'
-					},
-					{
-						url: '/static/c6.png',
-						text: 'Grid 6'
-					},
-					{
-						url: '/static/c7.png',
-						text: 'Grid 7'
-					},
-					{
-						url: '/static/c8.png',
-						text: 'Grid 8'
-					},
-					{
-						url: '/static/c9.png',
-						text: 'Grid 9'
-					}
-				]
-			}
-		},
-		methods: {
-			change(e) {
-				let {
-					index
-				} = e.detail
-				this.list[index].badge && this.list[index].badge++
 
-				uni.showToast({
-					title: `点击第${index+1}个宫格`,
-					icon: 'none'
-				})
-			},
-			add() {
-				if (this.dynamicList.length < 9) {
-					this.dynamicList.push({
-						url: `/static/c${this.dynamicList.length+1}.png`,
-						text: `Grid ${this.dynamicList.length+1}`,
-						color: this.dynamicList.length % 2 === 0 ? '#f5f5f5' : "#fff"
-					})
-				} else {
-					uni.showToast({
-						title: '最多添加9个',
-						icon: 'none'
-					});
-				}
-			},
-			del() {
-				this.dynamicList.splice(this.dynamicList.length - 1, 1)
-			}
-		}
-	}
+<script setup>
+import { ref } from 'vue'
+
+const list = ref([
+  { url: '/static/c1.png', text: 'Grid 1', badge: '0', type: 'primary' },
+  { url: '/static/c2.png', text: 'Grid 2', badge: '1', type: 'success' },
+  { url: '/static/c3.png', text: 'Grid 3', badge: '99', type: 'warning' },
+  { url: '/static/c4.png', text: 'Grid 4', badge: '2', type: 'error' },
+  { url: '/static/c5.png', text: 'Grid 5' },
+  { url: '/static/c6.png', text: 'Grid 6' },
+  { url: '/static/c7.png', text: 'Grid 7' },
+  { url: '/static/c8.png', text: 'Grid 8' },
+  { url: '/static/c9.png', text: 'Grid 9' }
+])
+
+const dynamicList = ref([])
+
+const change = (index) => {
+  if (list.value[index].badge) {
+    list.value[index].badge++
+  }
+  uni.showToast({
+    title: `点击第${index + 1}个宫格`,
+    icon: 'none'
+  })
+}
+
+const add = () => {
+  if (dynamicList.value.length < 9) {
+    dynamicList.value.push({
+      url: `/static/c${dynamicList.value.length + 1}.png`,
+      text: `Grid ${dynamicList.value.length + 1}`,
+      color: dynamicList.value.length % 2 === 0 ? '#f5f5f5' : '#fff'
+    })
+  } else {
+    uni.showToast({
+      title: '最多添加9个',
+      icon: 'none'
+    })
+  }
+}
+
+const del = () => {
+  dynamicList.value.splice(dynamicList.value.length - 1, 1)
+}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.image {
 		width: 25px;
 		height: 25px;

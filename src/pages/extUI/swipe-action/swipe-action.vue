@@ -106,189 +106,143 @@
 		</uni-swipe-action>
 	</view>
 </template>
+<script setup>
+import { ref, onMounted } from 'vue'
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				show: false,
-				isOpened: 'none',
-				options1: [{
-					text: '取消置顶'
-				}],
-				options2: [{
-						text: '取消',
-						style: {
-							backgroundColor: '#007aff'
-						}
-					},
-					{
-						text: '确认',
-						style: {
-							backgroundColor: '#F56C6C'
-						}
-					}
-				],
-				swipeList: [{
-						options: [{
-							text: '添加',
-							style: {
-								backgroundColor: '#F56C6C'
-							}
-						}],
-						id: 0,
-						content: '左滑点击添加新增一条数据'
-					},
-					{
-						id: 1,
-						options: [{
-								text: '置顶'
-							},
-							{
-								text: '删除',
-								style: {
-									backgroundColor: 'rgb(255,58,49)'
-								}
-							}
-						],
-						content: 'item2'
-					},
-					{
-						id: 2,
-						options: [{
-								text: '置顶'
-							},
-							{
-								text: '标记为已读',
-								style: {
-									backgroundColor: 'rgb(254,156,1)'
-								}
-							},
-							{
-								text: '删除',
-								style: {
-									backgroundColor: 'rgb(255,58,49)'
-								}
-							}
-						],
-						content: 'item3'
-					}
-				]
-			};
-		},
-		onReady() {
-			// 模拟延迟赋值
-			setTimeout(() => {
-				this.isOpened = 'right';
-			}, 1000);
-			
-			uni.$on('update',res=>{
-				console.log(111);
-				this.swipeClick({
-					content:{
-						text:'添加'
-					}
-				})
-			})
-		},
-		methods: {
-			contentClick(){
-				console.log('点击内容');
-				uni.showToast({
-					title:'点击内容',
-					icon:'none'
-				})
-			},
-			bindClick(e) {
-				console.log(e);
-				uni.showToast({
-					title: `点击了${e.position === 'left' ? '左侧' : '右侧'} ${e.content.text}按钮`,
-					icon: 'none'
-				});
-			},
-			setOpened() {
-				if (this.isOpened === 'none') {
-					this.isOpened = 'left';
-					return;
-				}
-				if (this.isOpened === 'left') {
-					this.isOpened = 'right';
-					return;
-				}
-				if (this.isOpened === 'right') {
-					this.isOpened = 'none';
-					return;
-				}
-			},
-			change(e) {
-				this.isOpened = e;
-				console.log('返回：', e);
-			},
-			swipeChange(e, index) {
-				console.log('返回：', e);
-				console.log('当前索引：', index);
-			},
-			swipeClick(e, index) {
-				let {
-					content
-				} = e;
-				if (content.text === '删除') {
-					uni.showModal({
-						title: '提示',
-						content: '是否删除',
-						success: res => {
-							if (res.confirm) {
-								this.swipeList.splice(index, 1);
-							} else if (res.cancel) {
-								console.log('用户点击取消');
-							}
-						}
-					});
-				} else if (content.text === '添加') {
-					if (this.swipeList.length < 10) {
-						this.swipeList.push({
-							id: new Date().getTime(),
-							options: [{
-									text: '置顶'
-								},
-								{
-									text: '标记为已读',
-									style: {
-										backgroundColor: 'rgb(254,156,1)'
-									}
-								},
-								{
-									text: '删除',
-									style: {
-										backgroundColor: 'rgb(255,58,49)'
-									}
-								}
-							],
-							content: '新增' + new Date().getTime()
-						});
-						uni.showToast({
-							title: `添加了一条数据`,
-							icon: 'none'
-						});
-					} else {
-						uni.showToast({
-							title: `最多添加十条数据`,
-							icon: 'none'
-						});
-					}
-				} else {
-					uni.showToast({
-						title: `点击了${e.content.text}按钮`,
-						icon: 'none'
-					});
-				}
-			}
-		}
-	};
+// Reactive state
+const show = ref(false)
+const isOpened = ref('none')
+const options1 = ref([{ text: '取消置顶' }])
+const options2 = ref([
+  { text: '取消', style: { backgroundColor: '#007aff' } },
+  { text: '确认', style: { backgroundColor: '#F56C6C' } }
+])
+const swipeList = ref([
+  {
+    options: [{ text: '添加', style: { backgroundColor: '#F56C6C' } }],
+    id: 0,
+    content: '左滑点击添加新增一条数据'
+  },
+  {
+    id: 1,
+    options: [
+      { text: '置顶' },
+      { text: '删除', style: { backgroundColor: 'rgb(255,58,49)' } }
+    ],
+    content: 'item2'
+  },
+  {
+    id: 2,
+    options: [
+      { text: '置顶' },
+      { text: '标记为已读', style: { backgroundColor: 'rgb(254,156,1)' } },
+      { text: '删除', style: { backgroundColor: 'rgb(255,58,49)' } }
+    ],
+    content: 'item3'
+  }
+])
+
+// Methods
+const contentClick = () => {
+  console.log('点击内容')
+  uni.showToast({
+    title: '点击内容',
+    icon: 'none'
+  })
+}
+
+const bindClick = (e) => {
+  console.log(e)
+  uni.showToast({
+    title: `点击了${e.position === 'left' ? '左侧' : '右侧'} ${e.content.text}按钮`,
+    icon: 'none'
+  })
+}
+
+const setOpened = () => {
+  if (isOpened.value === 'none') {
+    isOpened.value = 'left'
+    return
+  }
+  if (isOpened.value === 'left') {
+    isOpened.value = 'right'
+    return
+  }
+  if (isOpened.value === 'right') {
+    isOpened.value = 'none'
+    return
+  }
+}
+
+const change = (e) => {
+  isOpened.value = e
+  console.log('返回：', e)
+}
+
+const swipeChange = (e, index) => {
+  console.log('返回：', e)
+  console.log('当前索引：', index)
+}
+
+const swipeClick = (e, index) => {
+  const { content } = e
+  if (content.text === '删除') {
+    uni.showModal({
+      title: '提示',
+      content: '是否删除',
+      success: (res) => {
+        if (res.confirm) {
+          swipeList.value.splice(index, 1)
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  } else if (content.text === '添加') {
+    if (swipeList.value.length < 10) {
+      swipeList.value.push({
+        id: new Date().getTime(),
+        options: [
+          { text: '置顶' },
+          { text: '标记为已读', style: { backgroundColor: 'rgb(254,156,1)' } },
+          { text: '删除', style: { backgroundColor: 'rgb(255,58,49)' } }
+        ],
+        content: '新增' + new Date().getTime()
+      })
+      uni.showToast({
+        title: `添加了一条数据`,
+        icon: 'none'
+      })
+    } else {
+      uni.showToast({
+        title: `最多添加十条数据`,
+        icon: 'none'
+      })
+    }
+  } else {
+    uni.showToast({
+      title: `点击了${e.content.text}按钮`,
+      icon: 'none'
+    })
+  }
+}
+
+// Simulate delay
+onMounted(() => {
+  setTimeout(() => {
+    isOpened.value = 'right'
+  }, 1000)
+
+  uni.$on('update', (res) => {
+    console.log(111)
+    swipeClick({
+      content: { text: '添加' }
+    })
+  })
+})
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.content-box {
 		flex: 1;
 		/* #ifdef APP-NVUE */

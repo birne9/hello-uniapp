@@ -58,72 +58,58 @@
 	</view>
 </template>
 
-<script>
-export default {
-	data() {
-		return {
-			nation: '汉族',
-			address: '110101',
-			// map: {
-			//   text: "label",
-			//   value: "value"
-			// },
-			classValue: '1-2',
-			classDataTree: [
-				{
-					text: '一年级',
-					value: '1-0',
-					children: [
-						{
-							text: '1.1班',
-							value: '1-1'
-						},
-						{
-							text: '1.2班',
-							value: '1-2'
-						}
-					]
-				},
-				{
-					text: '二年级',
-					value: '2-0',
-					children: [
-						{
-							text: '2.1班',
-							value: '2-1'
-						},
-						{
-							text: '2.2班',
-							value: '2-2'
-						}
-					]
-				},
-				{
-					text: '三年级',
-					value: '3-0',
-					disable: true
-				}
-			]
-		};
-	},
-	methods: {
-		onnodeclick(e) {
-			console.log('nodeclick', e);
-		},
-		onpopupopened(e) {
-			console.log('onpopupopened');
-		},
-		onpopupclosed(e) {
-			console.log('onpopupclosed');
-		},
-		onchange(e) {
-			console.log('onchange', e.detail.value);
-		}
-	}
-};
+<script setup>
+import { ref } from 'vue';
+
+const nation = ref('汉族');
+const address = ref('110101');
+// const map = ref({ text: "label", value: "value" });
+
+const classValue = ref('1-2');
+
+const classDataTree = ref([
+  {
+    text: '一年级',
+    value: '1-0',
+    children: [
+      { text: '1.1班', value: '1-1' },
+      { text: '1.2班', value: '1-2' }
+    ]
+  },
+  {
+    text: '二年级',
+    value: '2-0',
+    children: [
+      { text: '2.1班', value: '2-1' },
+      { text: '2.2班', value: '2-2' }
+    ]
+  },
+  {
+    text: '三年级',
+    value: '3-0',
+    disable: true
+  }
+]);
+
+function onnodeclick(e) {
+  console.log('nodeclick', e);
+}
+
+function onpopupopened(e) {
+  console.log('onpopupopened');
+}
+
+function onpopupclosed(e) {
+  console.log('onpopupclosed');
+}
+
+function onchange(e) {
+  console.log('onchange', e.detail.value);
+}
 </script>
 
-<style>
+
+<style lang="scss" scoped>
 .container {
 	/* padding: 0 15px; */
 	/* #ifndef APP-NVUE */

@@ -110,35 +110,31 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				cover: 'https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg',
-				avatar: 'https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png',
-				extraIcon: {
-					color: '#4cd964',
-					size: '22',
-					type: 'gear-filled'
-				}
-			}
-		},
-		methods: {
-			onClick(e) {
-				console.log(e)
-			},
-			actionsClick(text) {
-				uni.showToast({
-					title: text,
-					icon: 'none'
-				})
-			}
-		}
-	}
+<script setup>
+import { ref } from 'vue';
+
+const cover = ref('https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg');
+const avatar = ref('https://web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png');
+const extraIcon = ref({
+  color: '#4cd964',
+  size: '22',
+  type: 'gear-filled'
+});
+
+function onClick(e) {
+  console.log(e);
+}
+
+function actionsClick(text) {
+  uni.showToast({
+    title: text,
+    icon: 'none'
+  });
+}
 </script>
 
-<style lang="scss">
+
+<style lang="scss" scoped>
 	.container {
 		overflow: hidden;
 	}

@@ -24,14 +24,9 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {};
-		}
-	};
+<script setup>
+	
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 </style>

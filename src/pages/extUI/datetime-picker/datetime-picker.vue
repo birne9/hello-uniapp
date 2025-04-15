@@ -46,66 +46,81 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-				dateString: this.getDateTime(new Date()),
-				datetimeString: this.getDateTime(new Date()),
-				dateTimestamp: Date.now(),
-				dateInstance: new Date(),
-				dateRange: [this.getDate(Date.now() - 5 * 24 * 3600000), this.getDate(Date.now() + 5 * 24 * 3600000)],
-				datetimeRange: [this.getDateTime(Date.now() - 5 * 24 * 3600000), this.getDateTime(Date.now() + 5 * 24 * 3600000)],
-				start: Date.now() - 10 * 24 * 3600000,
-				end: Date.now() + 10 * 24 * 3600000
-			}
-		},
-		watch: {
-			datetimeString() {
-				console.log('日期时间单选:', this.datetimeString);
-			},
-			dateRange() {
-				console.log('日期范围选:', this.dateRange);
-			},
-			datetimeRange() {
-				console.log('日期时间范围选:', this.datetimeRange);
-			}
-		},
-		methods: {
-			change(e) {
-				console.log('----change事件:', e);
-			},
-			maskClick(e) {
-				console.log('----maskClick事件:', e);
-			},
-      getDateTime(date){
-        return `${this.getDate(date)} ${this.getTime(date)}`
-      },
-      getDate(date){
-        date = new Date(date)
-        const year = date.getFullYear()
-        const month = date.getMonth()+1
-        const day = date.getDate()
-        return `${year}-${this.addZero(month)}-${this.addZero(day)}`
-      },
-      getTime(date){
-        date = new Date(date)
-        const hour = date.getHours()
-        const minute = date.getMinutes()
-        const second = date.getSeconds()
-        return this.hideSecond ? `${this.addZero(hour)}:${this.addZero(minute)}` : `${this.addZero(hour)}:${this.addZero(minute)}:${this.addZero(second)}`
-      },
-			addZero(num) {
-				if (num < 10) {
-					num = `0${num}`
-				}
-				return num
-			}
-		}
-	}
+<script setup>
+import { ref, watch } from 'vue';
+
+const hideSecond = false; // 若需要控制是否隐藏秒，可调整此值
+
+function addZero(num) {
+  return num < 10 ? `0${num}` : num;
+}
+
+function getDate(date) {
+  date = new Date(date);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return `${year}-${addZero(month)}-${addZero(day)}`;
+}
+
+function getTime(date) {
+  date = new Date(date);
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const second = date.getSeconds();
+  return hideSecond
+    ? `${addZero(hour)}:${addZero(minute)}`
+    : `${addZero(hour)}:${addZero(minute)}:${addZero(second)}`;
+}
+
+function getDateTime(date) {
+  return `${getDate(date)} ${getTime(date)}`;
+}
+
+// 初始化数据
+const dateString = ref(getDateTime(new Date()));
+const datetimeString = ref(getDateTime(new Date()));
+const dateTimestamp = ref(Date.now());
+const dateInstance = ref(new Date());
+
+const dateRange = ref([
+  getDate(Date.now() - 5 * 24 * 3600000),
+  getDate(Date.now() + 5 * 24 * 3600000)
+]);
+
+const datetimeRange = ref([
+  getDateTime(Date.now() - 5 * 24 * 3600000),
+  getDateTime(Date.now() + 5 * 24 * 3600000)
+]);
+
+const start = ref(Date.now() - 10 * 24 * 3600000);
+const end = ref(Date.now() + 10 * 24 * 3600000);
+
+// 监听器
+watch(datetimeString, (newVal) => {
+  console.log('日期时间单选:', newVal);
+});
+
+watch(dateRange, (newVal) => {
+  console.log('日期范围选:', newVal);
+});
+
+watch(datetimeRange, (newVal) => {
+  console.log('日期时间范围选:', newVal);
+});
+
+// 事件处理方法
+function change(e) {
+  console.log('----change事件:', e);
+}
+
+function maskClick(e) {
+  console.log('----maskClick事件:', e);
+}
 </script>
 
-<style lang="scss">
+
+<style lang="scss" scoped>
 	.example-body {
 		background-color: #fff;
 		padding: 10px;

@@ -34,29 +34,26 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				checkList: [false, false, false, false, false, false],
-				contentText: {
-					contentDefault: '追番',
-					contentFav: '已追番'
-				}
-			}
-		},
-		methods: {
-			favClick(index) {
-				this.checkList[index] = !this.checkList[index]
-				console.log(this.checkList[index]);
-				this.$forceUpdate()
-			}
-		}
-	}
+
+<script setup>
+import { ref } from 'vue';
+
+// Reactive data variables
+const checkList = ref([false, false, false, false, false, false]);
+const contentText = ref({
+  contentDefault: '追番',
+  contentFav: '已追番',
+});
+
+// Methods
+function favClick(index) {
+  checkList.value[index] = !checkList.value[index];
+  console.log(checkList.value[index]);
+  // No need to force update in Vue 3
+}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.example-body {
 		display: flex;
 		padding: 10px 15px;

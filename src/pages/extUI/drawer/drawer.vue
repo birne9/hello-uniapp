@@ -44,49 +44,60 @@
 		</uni-section>
 	</view>
 </template>
-<script>
-	export default {
-		data() {
-			return {
-				showRight: false,
-				showLeft: false
-			}
-		},
-		methods: {
-			confirm() {},
-			// 打开窗口
-			showDrawer(e) {
-				this.$refs[e].open()
-			},
-			// 关闭窗口
-			closeDrawer(e) {
-				this.$refs[e].close()
-			},
-			// 抽屉状态发生变化触发
-			change(e, type) {
-				console.log((type === 'showLeft' ? '左窗口' : '右窗口') + (e ? '打开' : '关闭'));
-				this[type] = e
-			}
-		},
-		onNavigationBarButtonTap(e) {
-			if (this.showLeft) {
-				this.$refs.showLeft.close()
-			} else {
-				this.$refs.showLeft.open()
-			}
-		},
-		// app端拦截返回事件 ，仅app端生效
-		onBackPress() {
-			if (this.showRight || this.showLeft) {
-				this.$refs.showLeft.close()
-				this.$refs.showRight.close()
-				return true
-			}
-		}
-	}
+<script setup>
+import { ref, nextTick ,getCurrentInstance} from 'vue';
+
+const showRight = ref(false);
+const showLeft = ref(false);
+const {proxy}=getCurrentInstance();
+
+// Open Drawer
+function showDrawer(e) {
+  nextTick(() => {
+    const drawer = proxy.$refs[e];
+    drawer.open();
+  });
+}
+
+// Close Drawer
+function closeDrawer(e) {
+  nextTick(() => {
+    const drawer = proxy.$refs[e];
+    drawer.close();
+  });
+}
+
+// Handle Drawer state change
+function change(e, type) {
+  console.log((type === 'showLeft' ? '左窗口' : '右窗口') + (e ? '打开' : '关闭'));
+  if (type === 'showLeft') {
+    showLeft.value = e;
+  } else {
+    showRight.value = e;
+  }
+}
+
+// Navigation bar button tap handler
+function onNavigationBarButtonTap() {
+  if (showLeft.value) {
+    proxy.$refs.showLeft.close();
+  } else {
+    proxy.$refs.showLeft.open();
+  }
+}
+
+// Handle back press (for app only)
+function onBackPress() {
+  if (showRight.value || showLeft.value) {
+    proxy.$refs.showLeft.close();
+    proxy.$refs.showRight.close();
+    return true; // Prevent default behavior
+  }
+  return false; // Allow default behavior
+}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.example-body {
 		padding: 10px;
 	}

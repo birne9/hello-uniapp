@@ -49,48 +49,42 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				items: ['选项卡1', '选项卡2', '选项卡3'],
-				styles: [{
-						value: 'button',
-						text: '按钮',
-						checked: true
-					},
-					{
-						value: 'text',
-						text: '文字'
-					}
-				],
-				colors: ['#007aff', '#4cd964', '#dd524d'],
-				current: 0,
-				colorIndex: 0,
-				activeColor: '#007aff',
-				styleType: 'button'
-			}
-		},
-		methods: {
-			onClickItem(e) {
-				if (this.current !== e.currentIndex) {
-					this.current = e.currentIndex
-				}
-			},
-			styleChange(e) {
-				if (this.styleType !== e.detail.value) {
-					this.styleType = e.detail.value
-				}
-			},
-			colorChange(e) {
-				if (this.styleType !== e.detail.value) {
-					console.log(e.detail.value);
-					this.activeColor = e.detail.value
-				}
-			}
-		}
-	}
+<script setup>
+import { ref } from 'vue'
+
+// Reactive references for items, styles, and other state variables
+const items = ref(['选项卡1', '选项卡2', '选项卡3'])
+const styles = ref([
+  { value: 'button', text: '按钮', checked: true },
+  { value: 'text', text: '文字' }
+])
+const colors = ref(['#007aff', '#4cd964', '#dd524d'])
+const current = ref(0)
+const colorIndex = ref(0)
+const activeColor = ref('#007aff')
+const styleType = ref('button')
+
+// Method to handle item click
+const onClickItem = (e) => {
+  if (current.value !== e.currentIndex) {
+    current.value = e.currentIndex
+  }
+}
+
+// Method to handle style change
+const styleChange = (e) => {
+  if (styleType.value !== e.detail.value) {
+    styleType.value = e.detail.value
+  }
+}
+
+// Method to handle color change
+const colorChange = (e) => {
+  if (activeColor.value !== e.detail.value) {
+    console.log(e.detail.value)
+    activeColor.value = e.detail.value
+  }
+}
 </script>
 
 <style lang="scss">

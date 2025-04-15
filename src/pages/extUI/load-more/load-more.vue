@@ -36,47 +36,41 @@
 
 	</view>
 </template>
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				status: 'more',
-				statusTypes: [{
-					value: 'more',
-					text: '加载前',
-					checked: true
-				}, {
-					value: 'loading',
-					text: '加载中',
-					checked: false
-				}, {
-					value: 'noMore',
-					text: '没有更多',
-					checked: false
-				}],
-				contentText: {
-					contentdown: '查看更多',
-					contentrefresh: '加载中',
-					contentnomore: '没有更多'
-				}
-			}
-		},
-		methods: {
-			onChange(e) {
-				this.status = e.detail.value
-			},
-			clickLoadMore(e) {
-				uni.showToast({
-					icon: 'none',
-					title: "当前状态：" + e.detail.status
-				})
-			}
-		}
-	}
+<script setup>
+import { ref } from 'vue'
+
+const status = ref('more')
+const statusTypes = ref([
+  { value: 'more', text: '加载前', checked: true },
+  { value: 'loading', text: '加载中', checked: false },
+  { value: 'noMore', text: '没有更多', checked: false }
+])
+
+const contentText = {
+  contentdown: '查看更多',
+  contentrefresh: '加载中',
+  contentnomore: '没有更多'
+}
+
+// Compute the status text based on the current status
+const statusText = computed(() => {
+  const statusObj = statusTypes.value.find(item => item.value === status.value)
+  return statusObj ? statusObj.text : ''
+})
+
+const onChange = (e) => {
+  status.value = e.detail.value
+}
+
+const clickLoadMore = (e) => {
+  uni.showToast({
+    icon: 'none',
+    title: `当前状态：${e.detail.status}`
+  })
+}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.uni-list-item {
 		border-bottom-style: solid;
 		border-bottom-width: 1px;

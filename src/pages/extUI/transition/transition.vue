@@ -23,98 +23,87 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				show: true,
-				modeClass: 'fade',
-				styles: {}
-			}
-		},
-		onLoad() {
-			// #ifdef APP-NVUE
-			this.styles = {
-				justifyContent: 'center',
-				alignItems: 'center',
-				width: '100px',
-				height: '100px',
-				borderRadius: '5px',
-				textAlign: 'center',
-				backgroundColor: '#4cd964',
-				boxShadow: '0 0 5px 1px rgba(0,0,0,0.2)'
-			}
-			// #endif
-		},
-		methods: {
-			handle(type) {
-				this.show = !this.show
-				this.modeClass = type
-			},
-			custom() {
-				// TODO 下面修改宽高在百度下还有些问题待修复
-				// this.$refs.ani.step({
-				// 	width: '200px'
-				// })
-				// this.$refs.ani.step({
-				// 	height: '150px'
-				// },{
-				// 	delay:100,
-				// 	duration:200
-				// })
-				this.$refs.ani.step({
-					width: '100px',
-					height: '100px',
-					rotate: '180'
-				}, {
-					delay: 200,
-					duration: 300
-				})
-				this.$refs.ani.step({
-					width: '100px',
-					height: '100px',
-					rotate: '0'
-				}, {
-					transformOrigin: '50% 50%'
-				})
+<script setup>
+import { ref } from 'vue'
+import { onLoad, onReady, onShow, onHide, onShareAppMessage, onPullDownRefresh, onUnload } from '@dcloudio/uni-app';
+const show = ref(true)
+const modeClass = ref('fade')
+const styles = ref({})
 
-				this.$refs.ani.step({
-					translateX: '-100px'
-				}, {
-					timingFunction: 'ease-in',
-					duration: 100
-				})
+const handle = (type) => {
+  show.value = !show.value
+  modeClass.value = type
+}
 
-				this.$refs.ani.step({
-					translateX: '100px'
-				}, {
-					timingFunction: 'ease',
-					duration: 300
-				})
+const custom = () => {
+  // #ifdef APP-NVUE
+  styles.value = {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100px',
+    height: '100px',
+    borderRadius: '5px',
+    textAlign: 'center',
+    backgroundColor: '#4cd964',
+    boxShadow: '0 0 5px 1px rgba(0,0,0,0.2)'
+  }
+  // #endif
 
-				this.$refs.ani.step({
-					translateX: '50px',
-					scale: 1.5
-				}, {
-					timingFunction: 'linear',
-					duration: 100
-				})
-				this.$refs.ani.step({
-					translateX: '0px',
-					scale: 1
-				}, {
-					timingFunction: 'linear',
-					duration: 150
-				})
+  // Custom animation steps
+  const aniRef = $refs.ani
+  aniRef.step({
+    width: '100px',
+    height: '100px',
+    rotate: '180'
+  }, {
+    delay: 200,
+    duration: 300
+  })
 
-				this.$refs.ani.run()
-			}
-		}
-	}
+  aniRef.step({
+    width: '100px',
+    height: '100px',
+    rotate: '0'
+  }, {
+    transformOrigin: '50% 50%'
+  })
+
+  aniRef.step({
+    translateX: '-100px'
+  }, {
+    timingFunction: 'ease-in',
+    duration: 100
+  })
+
+  aniRef.step({
+    translateX: '100px'
+  }, {
+    timingFunction: 'ease',
+    duration: 300
+  })
+
+  aniRef.step({
+    translateX: '50px',
+    scale: 1.5
+  }, {
+    timingFunction: 'linear',
+    duration: 100
+  })
+
+  aniRef.step({
+    translateX: '0px',
+    scale: 1
+  }, {
+    timingFunction: 'linear',
+    duration: 150
+  })
+
+  aniRef.run()
+}
 </script>
 
-<style lang="scss">
+
+<style lang="scss" scoped>
 	.example {
 		/* #ifndef APP-NVUE */
 		display: flex;

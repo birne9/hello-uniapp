@@ -33,25 +33,16 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {}
-		},
-		created() {},
-		methods: {
-			getMore() {
+<script setup>
+	const getMore=()=> {
 				uni.showToast({
 					title: '点击查看更多',
 					icon: 'none'
 				})
 			}
-		}
-	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.container {
 		/* #ifndef APP-NVUE */
 		position: absolute;

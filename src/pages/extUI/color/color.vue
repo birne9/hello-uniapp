@@ -102,18 +102,11 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {}
-		},
-		computed: {},
-		onLoad() {},
-		methods: {}
-	}
+<script setup>
+	
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	@mixin flex {
 		display: flex;
 		align-items: center;

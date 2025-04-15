@@ -50,4 +50,5 @@
 		</uni-section>
 	</view>
 </template>
-<style></style>
+<script setup></script>
+<style scoped lang="scss"></style>

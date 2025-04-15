@@ -27,77 +27,43 @@
 		</uni-section>
 	</view>
 </template>
-<script>
-	export default {
-		data() {
-			return {
-				radiusClass: 'uni-radius-lg',
-				formData: {
-					direction: ['t', 'b'],
-					size: 'lg'
-				},
-				directionData: [{
-					value: 't',
-					text: '左上+右上'
-				}, {
-					value: 'r',
-					text: '右上+右下'
-				}, {
-					value: 'b',
-					text: '左下+右下'
-				}, {
-					value: 'l',
-					text: '右上+左下'
-				}, {
-					value: 'tl',
-					text: '左上'
-				}, {
-					value: 'tr',
-					text: '右上'
-				}, {
-					value: 'bl',
-					text: '左下'
-				}, {
-					value: 'br',
-					text: '右下'
-				}],
-				sizeData: [{
-					value: '0',
-					text: '无'
-				}, {
-					value: 'sm',
-					text: '小'
-				}, {
-					value: 'lg',
-					text: '常规'
-				}, {
-					value: 'xl',
-					text: '大'
-				}, {
-					value: 'circle',
-					text: '圆'
-				}, {
-					value: 'pill',
-					text: '最大化'
-				}]
-			}
-		},
-		onLoad() {},
-		methods: {
-			change(e, type) {
-				let {
-					direction,
-					size
-				} = this.formData
-				this.radiusClass = ''
-				direction.forEach(v => {
-					this.radiusClass += `uni-radius-${v}-${size} `
-				})
-			}
-		}
-	}
+<script setup>
+import { ref, watch } from 'vue'
+
+const radiusClass = ref('uni-radius-lg')
+const formData = ref({
+  direction: ['t', 'b'],
+  size: 'lg'
+})
+const directionData = ref([
+  { value: 't', text: '左上+右上' },
+  { value: 'r', text: '右上+右下' },
+  { value: 'b', text: '左下+右下' },
+  { value: 'l', text: '右上+左下' },
+  { value: 'tl', text: '左上' },
+  { value: 'tr', text: '右上' },
+  { value: 'bl', text: '左下' },
+  { value: 'br', text: '右下' }
+])
+const sizeData = ref([
+  { value: '0', text: '无' },
+  { value: 'sm', text: '小' },
+  { value: 'lg', text: '常规' },
+  { value: 'xl', text: '大' },
+  { value: 'circle', text: '圆' },
+  { value: 'pill', text: '最大化' }
+])
+
+// Watch for changes in formData and update radiusClass
+watch(formData, () => {
+  const { direction, size } = formData.value
+  radiusClass.value = ''
+  direction.forEach(v => {
+    radiusClass.value += `uni-radius-${v}-${size} `
+  })
+}, { deep: true })
 </script>
-<style>
+<style scoped lang="scss">
 	.header {
 		display: flex;
 		flex-direction: row;

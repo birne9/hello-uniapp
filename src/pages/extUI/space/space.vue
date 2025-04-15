@@ -42,68 +42,47 @@
 		</uni-section>
 	</view>
 </template>
-<script>
-	export default {
-		data() {
-			return {
-				paddingClass: 'uni-pa-5',
-				marginClass: 'uni-ma-5',
-				formData: {
-					margin: ['t', 'r', 'l', 'b'],
-					marginSize: '5',
-					padding: ['t', 'r', 'l', 'b'],
-					paddingSize: '5',
-				},
-				directionData: [{
-					value: 't',
-					text: '上'
-				}, {
-					value: 'r',
-					text: '右'
-				}, {
-					value: 'b',
-					text: '下'
-				}, {
-					value: 'l',
-					text: '左'
-				}],
-				sizeData: [{
-					value: '0',
-					text: '0'
-				}, {
-					value: '2',
-					text: '4px'
-				}, {
-					value: '5',
-					text: '10px'
-				}, {
-					value: '10',
-					text: '20px'
-				}]
-			}
-		},
-		onLoad() {},
-		methods: {
-			change(e, type) {
-				let {
-					margin,
-					marginSize,
-					padding,
-					paddingSize
-				} = this.formData
-				this.marginClass = ''
-				this.paddingClass = ''
-				margin.forEach(v => {
-					this.marginClass += `uni-m${v}-${marginSize} `
-				})
-				padding.forEach(v => {
-					this.marginClass += `uni-p${v}-${paddingSize} `
-				})
-			}
-		}
-	}
+<script setup>
+import { ref } from 'vue'
+
+const paddingClass = ref('uni-pa-5')
+const marginClass = ref('uni-ma-5')
+const formData = ref({
+  margin: ['t', 'r', 'l', 'b'],
+  marginSize: '5',
+  padding: ['t', 'r', 'l', 'b'],
+  paddingSize: '5',
+})
+
+const directionData = ref([
+  { value: 't', text: '上' },
+  { value: 'r', text: '右' },
+  { value: 'b', text: '下' },
+  { value: 'l', text: '左' },
+])
+
+const sizeData = ref([
+  { value: '0', text: '0' },
+  { value: '2', text: '4px' },
+  { value: '5', text: '10px' },
+  { value: '10', text: '20px' },
+])
+
+const change = (e, type) => {
+  const { margin, marginSize, padding, paddingSize } = formData.value
+  marginClass.value = ''
+  paddingClass.value = ''
+  
+  margin.forEach(v => {
+    marginClass.value += `uni-m${v}-${marginSize} `
+  })
+  
+  padding.forEach(v => {
+    paddingClass.value += `uni-p${v}-${paddingSize} `
+  })
+}
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 	.header {
 		display: flex;
 		flex-direction: row;

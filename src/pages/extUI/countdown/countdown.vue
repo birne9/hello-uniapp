@@ -33,39 +33,36 @@
 		</uni-section>
 	</view>
 </template>
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				testHour: 1,
-				testMinute: 0,
-				testSecond: 0,
-				start: false,
-				timeupSecond: 10
-			}
-		},
-		mounted() {
-			setTimeout(() => {
-				this.testHour = 1
-				this.testMinute = 1
-				this.testSecond = 0
-				this.start = true
-			}, 3000)
-			setTimeout(() => {
-				this.start = false
-			}, 10000)
-		},
-		methods: {
-			timeup() {
-				uni.showToast({
-					title: '时间到'
-				})
-				this.timeupSecond = 29
-			}
-		}
-	}
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const testHour = ref(1);
+const testMinute = ref(0);
+const testSecond = ref(0);
+const start = ref(false);
+const timeupSecond = ref(10);
+
+onMounted(() => {
+  setTimeout(() => {
+    testHour.value = 1;
+    testMinute.value = 1;
+    testSecond.value = 0;
+    start.value = true;
+  }, 3000);
+
+  setTimeout(() => {
+    start.value = false;
+  }, 10000);
+});
+
+function timeup() {
+  uni.showToast({
+    title: '时间到'
+  });
+  timeupSecond.value = 29;
+}
 </script>
 
-<style lang="scss">
+
+<style lang="scss" scoped>
 </style>

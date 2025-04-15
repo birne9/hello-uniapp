@@ -50,84 +50,84 @@
 
 	</view>
 </template>
+<script setup>
+import { ref } from 'vue'
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				info: [{
-						colorClass: 'uni-bg-red',
-						url: 'https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg',
-						content: '内容 A'
-					},
-					{
-						colorClass: 'uni-bg-green',
-						url: 'https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg',
-						content: '内容 B'
-					},
-					{
-						colorClass: 'uni-bg-blue',
-						url: 'https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg',
-						content: '内容 C'
-					}
-				],
-				dotStyle: [{
-						backgroundColor: 'rgba(0, 0, 0, .3)',
-						border: '1px rgba(0, 0, 0, .3) solid',
-						color: '#fff',
-						selectedBackgroundColor: 'rgba(0, 0, 0, .9)',
-						selectedBorder: '1px rgba(0, 0, 0, .9) solid'
-					},
-					{
-						backgroundColor: 'rgba(255, 90, 95,0.3)',
-						border: '1px rgba(255, 90, 95,0.3) solid',
-						color: '#fff',
-						selectedBackgroundColor: 'rgba(255, 90, 95,0.9)',
-						selectedBorder: '1px rgba(255, 90, 95,0.9) solid'
-					},
-					{
-						backgroundColor: 'rgba(83, 200, 249,0.3)',
-						border: '1px rgba(83, 200, 249,0.3) solid',
-						color: '#fff',
-						selectedBackgroundColor: 'rgba(83, 200, 249,0.9)',
-						selectedBorder: '1px rgba(83, 200, 249,0.9) solid'
-					}
-				],
-				modeIndex: -1,
-				styleIndex: -1,
-				current: 0,
-				mode: 'default',
-				dotsStyles: {},
-				swiperDotIndex: 0
-			}
-		},
-		onLoad() {},
-		methods: {
-			change(e) {
-				this.current = e.detail.current
-			},
-			selectStyle(index) {
-				this.dotsStyles = this.dotStyle[index]
-				this.styleIndex = index
-			},
-			selectMode(mode, index) {
-				this.mode = mode
-				this.modeIndex = index
-				this.styleIndex = -1
-				this.dotsStyles = this.dotStyle[0]
-			},
-			clickItem(e) {
-				this.swiperDotIndex = e
-			},
-			onBanner(index) {
-				console.log(22222, index);
-			}
-		}
-	}
+const info = ref([
+  {
+    colorClass: 'uni-bg-red',
+    url: 'https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg',
+    content: '内容 A'
+  },
+  {
+    colorClass: 'uni-bg-green',
+    url: 'https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg',
+    content: '内容 B'
+  },
+  {
+    colorClass: 'uni-bg-blue',
+    url: 'https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg',
+    content: '内容 C'
+  }
+])
+
+const dotStyle = ref([
+  {
+    backgroundColor: 'rgba(0, 0, 0, .3)',
+    border: '1px rgba(0, 0, 0, .3) solid',
+    color: '#fff',
+    selectedBackgroundColor: 'rgba(0, 0, 0, .9)',
+    selectedBorder: '1px rgba(0, 0, 0, .9) solid'
+  },
+  {
+    backgroundColor: 'rgba(255, 90, 95,0.3)',
+    border: '1px rgba(255, 90, 95,0.3) solid',
+    color: '#fff',
+    selectedBackgroundColor: 'rgba(255, 90, 95,0.9)',
+    selectedBorder: '1px rgba(255, 90, 95,0.9) solid'
+  },
+  {
+    backgroundColor: 'rgba(83, 200, 249,0.3)',
+    border: '1px rgba(83, 200, 249,0.3) solid',
+    color: '#fff',
+    selectedBackgroundColor: 'rgba(83, 200, 249,0.9)',
+    selectedBorder: '1px rgba(83, 200, 249,0.9) solid'
+  }
+])
+
+const modeIndex = ref(-1)
+const styleIndex = ref(-1)
+const current = ref(0)
+const mode = ref('default')
+const dotsStyles = ref({})
+const swiperDotIndex = ref(0)
+
+const change = (e) => {
+  current.value = e.detail.current
+}
+
+const selectStyle = (index) => {
+  dotsStyles.value = dotStyle.value[index]
+  styleIndex.value = index
+}
+
+const selectMode = (modeValue, index) => {
+  mode.value = modeValue
+  modeIndex.value = index
+  styleIndex.value = -1
+  dotsStyles.value = dotStyle.value[0]
+}
+
+const clickItem = (e) => {
+  swiperDotIndex.value = e
+}
+
+const onBanner = (index) => {
+  console.log(22222, index)
+}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.swiper-box {
 		height: 200px;
 	}

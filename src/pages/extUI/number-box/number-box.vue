@@ -26,31 +26,27 @@
 		</uni-section>
 	</view>
 </template>
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				numberValue: 0,
-				vModelValue: 3
-			}
-		},
-		methods: {
-			change(value) {
-				this.numberValue = value
-			},
-			changeValue(value) {
-				console.log('返回数值：', value);
-			},
-			blur(e) {
-				console.log('-------blur:', e);
-			},
-			focus(e) {
-				console.log('-------focus:', e);
-			}
+<script setup>
+import { ref } from 'vue'
 
-		}
-	}
+const numberValue = ref(0)
+const vModelValue = ref(3)
+
+const change = (value) => {
+  numberValue.value = value
+}
+
+const changeValue = (value) => {
+  console.log('返回数值：', value)
+}
+
+const blur = (e) => {
+  console.log('-------blur:', e)
+}
+
+const focus = (e) => {
+  console.log('-------focus:', e)
+}
 </script>
-<style lang="scss">
-</style>
+<style lang="scss" scoped></style>
+

@@ -66,22 +66,13 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				title: '标题组件通常用于记录页面标题，例如商品标题、新闻标题等，当前组件会自动上报内容统计数据'
-			}
-		},
-		onLoad() {},
-		methods: {
-
-		}
-	}
+<script setup>
+import {ref} from 'vue';
+const title=ref("标题组件通常用于记录页面标题，例如商品标题、新闻标题等，当前组件会自动上报内容统计数据")
+	
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.example-body {
 		/* #ifndef APP-NVUE */
 		display: block;

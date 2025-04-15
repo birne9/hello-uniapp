@@ -29,36 +29,23 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-				value: 0,
-				range: [{
-						"value": 0,
-						"text": "篮球",
-						"disable": true
-					},
-					{
-						"value": 1,
-						"text": "足球"
-					},
-					{
-						"value": 2,
-						"text": "游泳"
-					}
-				]
-			}
-		},
-		methods: {
-			change(e) {
-				console.log('e:', e);
-			}
-		}
-	}
+<script setup>
+import { ref } from 'vue';
+
+const value = ref(0);
+const range = ref([
+  { value: 0, text: '篮球', disable: true },
+  { value: 1, text: '足球' },
+  { value: 2, text: '游泳' }
+]);
+
+function change(e) {
+  console.log('e:', e);
+}
 </script>
 
-<style lang="scss">
+
+<style lang="scss" scoped>
 	.text {
 		font-size: 12px;
 		color: #666;

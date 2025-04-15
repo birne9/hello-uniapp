@@ -74,74 +74,51 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-				radio1: 0,
-				radio2: 0,
-				radio3: 0,
-				radio4: 0,
-				radio5: 0,
-				radio6: 0,
-				checkbox1: [0],
-				checkbox2: [0],
-				checkbox3: [0],
-				checkbox4: [0],
-				checkbox5: [0],
-				checkbox6: [0],
-				sex: [{
-					text: '男',
-					value: 0
-				}, {
-					text: '女',
-					value: 1
-				}, {
-					text: '未知',
-					value: 2
-				}],
-				sex1: [{
-					text: '男',
-					value: 0
-				}, {
-					text: '女',
-					value: 1,
-					disable: true
-				}, {
-					text: '未知',
-					value: 2
-				}],
-				hobby: [{
-					text: '足球',
-					value: 0
-				}, {
-					text: '篮球',
-					value: 1
-				}, {
-					text: '游泳',
-					value: 2
-				}],
-				hobby2: [{
-					text: '足球',
-					value: 0,
-					disable: true
-				}, {
-					text: '篮球',
-					value: 1,
-					disable: true
-				}, {
-					text: '游泳',
-					value: 2
-				}],
-			}
-		},
-		onLoad() {},
-		onReady() {},
-		methods: {}
-	}
+<script setup>
+import { ref } from 'vue';
+
+const radio1 = ref(0);
+const radio2 = ref(0);
+const radio3 = ref(0);
+const radio4 = ref(0);
+const radio5 = ref(0);
+const radio6 = ref(0);
+
+const checkbox1 = ref([0]);
+const checkbox2 = ref([0]);
+const checkbox3 = ref([0]);
+const checkbox4 = ref([0]);
+const checkbox5 = ref([0]);
+const checkbox6 = ref([0]);
+
+const sex = ref([
+  { text: '男', value: 0 },
+  { text: '女', value: 1 },
+  { text: '未知', value: 2 }
+]);
+
+const sex1 = ref([
+  { text: '男', value: 0 },
+  { text: '女', value: 1, disable: true },
+  { text: '未知', value: 2 }
+]);
+
+const hobby = ref([
+  { text: '足球', value: 0 },
+  { text: '篮球', value: 1 },
+  { text: '游泳', value: 2 }
+]);
+
+const hobby2 = ref([
+  { text: '足球', value: 0, disable: true },
+  { text: '篮球', value: 1, disable: true },
+  { text: '游泳', value: 2 }
+]);
+
 </script>
 
-<style lang="scss">
+
+<style lang="scss" scoped>
 	.text {
 		font-size: 12px;
 		color: #666;

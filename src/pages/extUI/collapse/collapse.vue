@@ -105,49 +105,48 @@
 		</uni-section>
 	</view>
 </template>
+<script setup>
+import { ref, nextTick } from 'vue';
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				value:['0'],
-				accordionVal:'1',
-				content: '折叠内容主体，可自定义内容及样式，点击按钮修改内容使高度发生变化。',
-				extraIcon: {
-					color: '#4cd964',
-					size: '26',
-					type: 'image'
-				},
-			}
-		},
-		methods: {
-			add() {
-				if (this.content.length > 35) {
-					this.content = '折叠内容主体，可自定义内容及样式，点击按钮修改内容使高度发生变化。'
-				} else {
-					this.content = '折叠内容主体，这是一段比较长内容。通过点击按钮修改后内容后，使组件高度发生变化，在次点击按钮恢复之前的内容和高度。'
-				}
-				// TODO 小程序中不支持自动更新 ，需要手动resize 更新组件高度
-				// #ifdef MP
-				this.$nextTick(() => {
-					this.$refs.collapse.resize()
-				})
-				// #endif
-			},
-			onClick(e) {
-				uni.showToast({
-					title: '列表被点击'
-				})
-			},
-			change(e) {
-				console.log(e);
-			}
-		}
-	}
+const value = ref(['0']);
+const accordionVal = ref('1');
+const content = ref('折叠内容主体，可自定义内容及样式，点击按钮修改内容使高度发生变化。');
+const extraIcon = ref({
+  color: '#4cd964',
+  size: '26',
+  type: 'image'
+});
+
+function add() {
+  if (content.value.length > 35) {
+    content.value = '折叠内容主体，可自定义内容及样式，点击按钮修改内容使高度发生变化。';
+  } else {
+    content.value = '折叠内容主体，这是一段比较长内容。通过点击按钮修改后内容后，使组件高度发生变化，在次点击按钮恢复之前的内容和高度。';
+  }
+  
+  // Handle resize for Mini Programs
+  // #ifdef MP
+  nextTick(() => {
+    const collapse = useRefs('collapse');
+    collapse?.resize();
+  });
+  // #endif
+}
+
+function onClick(e) {
+  uni.showToast({
+    title: '列表被点击'
+  });
+}
+
+function change(e) {
+  console.log(e);
+}
 </script>
 
-<style lang="scss">
+
+
+<style lang="scss" scoped>
 	.example-body {
 		flex-direction: column;
 		flex: 1;

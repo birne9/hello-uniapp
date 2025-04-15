@@ -35,28 +35,22 @@
 		</uni-section>
 	</view>
 </template>
+<script setup>
+import { ref, onMounted } from 'vue'
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				rateValue: 0
-			}
-		},
-		onLoad() {
-			// 模拟动态赋值
-			setTimeout(() => {
-				this.rateValue = 3
-			}, 1000)
-		},
-		methods: {
-			onChange(e) {
-				console.log('rate发生改变:' + JSON.stringify(e))
-				// console.log(this.rateValue);
-			}
-		}
-	}
+const rateValue = ref(0)
+
+onMounted(() => {
+  // Simulate dynamic value change
+  setTimeout(() => {
+    rateValue.value = 3
+  }, 1000)
+})
+
+const onChange = (e) => {
+  console.log('rate发生改变:', e)
+  // console.log(rateValue.value)
+}
 </script>
 
 <style lang="scss">

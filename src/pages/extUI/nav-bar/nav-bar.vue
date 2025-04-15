@@ -79,59 +79,66 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				city: '北京'
-			}
-		},
-		methods: {
-			back() {
-				uni.navigateBack({
-					delta: 1
-				})
-			},
-			showMenu() {
-				uni.showToast({
-					title: '菜单'
-				})
-			},
-			clickLeft() {
-				uni.showToast({
-					title: '左侧按钮'
-				})
-			},
-			search() {
-				uni.showToast({
-					title: '搜索'
-				})
-			},
-			showCity() {
-				uni.showToast({
-					title: '选择城市'
-				})
-			},
-			scan() {
-				uni.showToast({
-					title: '扫码'
-				})
-			},
-			confirm() {
-				uni.showToast({
-					title: '搜索'
-				})
-			}
-		},
-		onPullDownRefresh() {
-			console.log('onPullDownRefresh')
-			setTimeout(function() {
-				uni.stopPullDownRefresh()
-				console.log('stopPullDownRefresh')
-			}, 1000)
-		}
-	}
+<script setup>
+import { ref } from 'vue'
+import { onLoad, onReady, onShow, onHide, onShareAppMessage, onPullDownRefresh, onUnload } from '@dcloudio/uni-app';
+
+// Reactive state
+const city = ref('北京')
+
+// Methods
+const back = () => {
+  uni.navigateBack({
+    delta: 1
+  })
+}
+
+const showMenu = () => {
+  uni.showToast({
+    title: '菜单'
+  })
+}
+
+const clickLeft = () => {
+  uni.showToast({
+    title: '左侧按钮'
+  })
+}
+
+const search = () => {
+  uni.showToast({
+    title: '搜索'
+  })
+}
+
+const showCity = () => {
+  uni.showToast({
+    title: '选择城市'
+  })
+}
+
+const scan = () => {
+  uni.showToast({
+    title: '扫码'
+  })
+}
+
+const confirm = () => {
+  uni.showToast({
+    title: '搜索'
+  })
+}
+
+// Pull Down Refresh
+const onPullDownRefresh = () => {
+  console.log('onPullDownRefresh')
+  setTimeout(() => {
+    uni.stopPullDownRefresh()
+    console.log('stopPullDownRefresh')
+  }, 1000)
+}
+
+// Expose onPullDownRefresh method to be used in lifecycle hooks if needed
 </script>
 
 <style lang="scss">

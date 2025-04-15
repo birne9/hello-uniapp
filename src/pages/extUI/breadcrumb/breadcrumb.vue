@@ -15,27 +15,17 @@
 		</uni-section>
 	</view>
 </template>
+<script setup>
+import { ref } from 'vue';
 
-<script>
-	export default {
-		components: {},
-		data() {
-			return {
-				routes: [ {
-					to: '/pages/index/index',
-					name: '首页'
-				}, {
-					to: '',
-					name: '菜单 A'
-				}, {
-					to: '',
-					name: '菜单 B'
-				}]
-			};
-		},
-	};
+const routes = ref([
+  { to: '/pages/index/index', name: '首页' },
+  { to: '', name: '菜单 A' },
+  { to: '', name: '菜单 B' }
+]);
 </script>
 
-<style lang="scss">
+
+<style lang="scss" scoped>
 
 </style>

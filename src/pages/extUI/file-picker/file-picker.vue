@@ -49,53 +49,48 @@
 	</view>
 </template>
 
-<script>
-	export default {
-		data() {
-			return {
-				sourceType: ['album', 'camera'],
-				imageStyles: {
-					width: 64,
-					height: 64,
-					border: {
-						radius: '50%'
-					}
-				},
-				listStyles: {
-					// 是否显示边框
-					border: true,
-					// 是否显示分隔线
-					dividline: true,
-					// 线条样式
-					borderStyle: {
-						width: 1,
-						color: 'blue',
-						style: 'dashed',
-						radius: 2
-					}
-				},
-				fileLists: [{
-					url: 'https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao-small.jpg',
-					extname: 'png',
-					name: 'shuijiao.png'
-				}, {
-					url: 'https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao-small.jpg',
-					extname: 'png',
-					name: 'uniapp-logo.png'
-				}, {
-					url: 'https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao-small.jpg',
-					extname: 'png',
-					name: 'shuijiao.png'
-				}]
-			}
-		},
-		methods: {
+<script setup>
+import { ref } from 'vue';
 
-		}
-	}
+// Reactive data variables
+const sourceType = ref(['album', 'camera']);
+const imageStyles = ref({
+  width: '64px',
+  height: '64px',
+  border: {
+    radius: '50%',
+  },
+});
+const listStyles = ref({
+  border: true,
+  dividline: true,
+  borderStyle: {
+    width: '1px',
+    color: 'blue',
+    style: 'dashed',
+    radius: '2px',
+  },
+});
+const fileLists = ref([
+  {
+    url: 'https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao-small.jpg',
+    extname: 'png',
+    name: 'shuijiao.png',
+  },
+  {
+    url: 'https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao-small.jpg',
+    extname: 'png',
+    name: 'uniapp-logo.png',
+  },
+  {
+    url: 'https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao-small.jpg',
+    extname: 'png',
+    name: 'shuijiao.png',
+  },
+]);
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.example-body {
 		padding: 10px;
 		padding-top: 0;
