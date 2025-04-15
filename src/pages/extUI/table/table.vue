@@ -28,11 +28,11 @@
 </template>
 
 <script setup>
-import tableData from './tableData.js'
+import tableDataMock from './tableData.js'
 import { ref } from 'vue'
 
 const searchVal = ref('')
-const tableData = ref([])
+const tableData = ref(tableDataMock)
 const pageSize = ref(10)
 const pageCurrent = ref(1)
 const total = ref(0)
