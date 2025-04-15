@@ -1,0 +1,105 @@
+{
+  "pages": [
+    "pages/tabBar/component/component",
+    "pages/tabBar/API/API",
+    "pages/tabBar/template/template",
+    "pages/tabBar/extUI/extUI",
+    "pages/index/index"
+  ],
+  "subPackages": [
+    {
+      "root": "pages/extUI",
+      "pages": [
+        "forms/forms",
+        "group/group",
+        "badge/badge",
+        "breadcrumb/breadcrumb",
+        "countdown/countdown",
+        "drawer/drawer",
+        "icons/icons",
+        "load-more/load-more",
+        "nav-bar/nav-bar",
+        "number-box/number-box",
+        "popup/popup",
+        "segmented-control/segmented-control",
+        "tag/tag",
+        "list/list",
+        "card/card",
+        "collapse/collapse",
+        "pagination/pagination",
+        "swiper-dot/swiper-dot",
+        "grid/grid",
+        "rate/rate",
+        "steps/steps",
+        "notice-bar/notice-bar",
+        "swipe-action/swipe-action",
+        "search-bar/search-bar",
+        "calendar/calendar",
+        "indexed-list/indexed-list",
+        "fab/fab",
+        "fav/fav",
+        "goods-nav/goods-nav",
+        "section/section",
+        "transition/transition",
+        "title/title",
+        "tooltip/tooltip",
+        "link/link",
+        "combox/combox",
+        "list/chat",
+        "table/table",
+        "dateformat/dateformat",
+        "data-checkbox/data-checkbox",
+        "easyinput/easyinput",
+        "data-picker/data-picker",
+        "data-select/data-select",
+        "datetime-picker/datetime-picker",
+        "row/row",
+        "file-picker/file-picker",
+        "space/space",
+        "font/font",
+        "color/color",
+        "radius/radius",
+        "button/button"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#007AFF",
+    "borderStyle": "black",
+    "backgroundColor": "#F8F8F8",
+    "list": [
+      {
+        "pagePath": "pages/tabBar/component/component",
+        "iconPath": "static/component.png",
+        "selectedIconPath": "static/componentHL.png",
+        "text": "内置组件"
+      },
+      {
+        "pagePath": "pages/tabBar/API/API",
+        "iconPath": "static/api.png",
+        "selectedIconPath": "static/apiHL.png",
+        "text": "接口"
+      },
+      {
+        "pagePath": "pages/tabBar/extUI/extUI",
+        "iconPath": "static/extui.png",
+        "selectedIconPath": "static/extuiHL.png",
+        "text": "扩展组件"
+      },
+      {
+        "pagePath": "pages/tabBar/template/template",
+        "iconPath": "static/template.png",
+        "selectedIconPath": "static/templateHL.png",
+        "text": "模板"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

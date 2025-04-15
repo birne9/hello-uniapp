@@ -1,0 +1,1 @@
+<view class="uni-tooltip"><slot></slot><view xhs:if="{{a}}" class="uni-tooltip-popup" style="{{c}}"><block xhs:if="{{$slots.content}}"><slot name="content"></slot></block><block xhs:else>{{b}}</block></view></view>
