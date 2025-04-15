@@ -16,59 +16,60 @@
 		</view>
 	</view>
 </template>
-<script>
-	import permision from "@/common/permission.js"
-	export default {
-		data() {
-			return {
-				title: 'scanCode',
-				result: ''
-			}
-		},
-		methods: {
-			async scan() {
-				// #ifdef APP-PLUS
-				let status = await this.checkPermission();
-				if (status !== 1) {
-				    return;
-				}
-				// #endif
-				uni.scanCode({
-					success: (res) => {
-						this.result = res.result
-					},
-					fail: (err) => {
-						// 需要注意的是小程序扫码不需要申请相机权限
-					}
-				});
-			}
-			// #ifdef APP-PLUS
-			,
-			async checkPermission(code) {
-				let status = permision.isIOS ? await permision.requestIOS('camera') :
-					await permision.requestAndroid('android.permission.CAMERA');
 
-				if (status === null || status === 1) {
-					status = 1;
-				} else {
-					uni.showModal({
-						content: "需要相机权限",
-						confirmText: "设置",
-						success: function(res) {
-							if (res.confirm) {
-								permision.gotoAppSetting();
-							}
-						}
-					})
-				}
-				return status;
-			}
-			// #endif
-		}
-	}
+<script setup>
+import permision from "@/common/permission.js"
+import { ref } from 'vue'
+
+// 响应式数据
+const title = ref('scanCode')
+const result = ref('')
+
+// 扫码方法
+const scan = async () => {
+  // #ifdef APP-PLUS
+  const status = await checkPermission()
+  if (status !== 1) {
+    return
+  }
+  // #endif
+  
+  uni.scanCode({
+    success: (res) => {
+      result.value = res.result
+    },
+    fail: (err) => {
+      // 小程序扫码不需要申请相机权限
+    }
+  })
+}
+
+// #ifdef APP-PLUS
+// 权限检查方法
+const checkPermission = async (code) => {
+  const status = permision.isIOS 
+    ? await permision.requestIOS('camera')
+    : await permision.requestAndroid('android.permission.CAMERA')
+
+  if (status === null || status === 1) {
+    return 1
+  } else {
+    uni.showModal({
+      content: "需要相机权限",
+      confirmText: "设置",
+      success: (res) => {
+        if (res.confirm) {
+          permision.gotoAppSetting()
+        }
+      }
+    })
+  }
+  return status
+}
+// #endif
 </script>
 
-<style>
+<style scoped lang="scss">
 	.scan-result {
 		min-height: 50rpx;
 		line-height: 50rpx;

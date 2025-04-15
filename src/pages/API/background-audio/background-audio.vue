@@ -33,88 +33,114 @@
 		</view>
 	</view>
 </template>
-<script>
 
-	import * as util from '../../../common/util.js';
+<script setup>
+import { ref, onMounted ,getCurrentInstance} from 'vue'
+import { onLoad } from '@dcloudio/uni-app'
+import * as util from '@/common/util.js'
 
-	export default {
-		data() {
-			return {
-				title: 'backgroundAudio',
-				bgAudioMannager: null,
-				dataUrl: 'https://web-ext-storage.dcloud.net.cn/uni-app/ForElise.mp3',
-				playing: false,
-				playTime: 0,
-				formatedPlayTime: '00:00:00'
-			}
-		},
-		onLoad: function () {
-			this.playing = this.$backgroundAudioData.playing;
-			this.playTime = this.$backgroundAudioData.playTime;
-			this.formatedPlayTime = this.$backgroundAudioData.formatedPlayTime;
+// 响应式数据
+const title = ref('backgroundAudio')
+const bgAudioManager = ref(null)
+const dataUrl = ref('https://web-ext-storage.dcloud.net.cn/uni-app/ForElise.mp3')
+const playing = ref(false)
+const playTime = ref(0)
+const formatedPlayTime = ref('00:00:00')
+const {proxy} =getCurrentInstance()
 
-			let bgAudioMannager = uni.getBackgroundAudioManager();
-			if(!bgAudioMannager.title){
-				bgAudioMannager.title = '致爱丽丝';
-			}
-			if(!bgAudioMannager.singer) {
-				bgAudioMannager.singer = '暂无';
-			}
-			if(!bgAudioMannager.coverImgUrl){
-				bgAudioMannager.coverImgUrl = 'https://web-assets.dcloud.net.cn/unidoc/zh/Alice.jpeg';
-			}
 
-			bgAudioMannager.onPlay(() => {
-				console.log("开始播放");
-				this.$backgroundAudioData.playing = this.playing = true;
-			})
-			bgAudioMannager.onPause(() => {
-				console.log("暂停播放");
-				this.$backgroundAudioData.playing = this.playing = false;
-			})
-			bgAudioMannager.onEnded(() => {
-				this.playing = false;
-				this.$backgroundAudioData.playing = false;
-				this.$backgroundAudioData.playTime = this.playTime = 0;
-				this.$backgroundAudioData.formatedPlayTime = this.formatedPlayTime = util.formatTime(0);
-			})
+onLoad(() => {
+  // 初始化全局状态同步
+  playing.value = proxy.$backgroundAudioData.playing.value
+  playTime.value =proxy.$backgroundAudioData.playTime.value
+  formatedPlayTime.value = proxy.$backgroundAudioData.formatedPlayTime.value
 
-			bgAudioMannager.onTimeUpdate((e) => {
-				if (Math.floor(bgAudioMannager.currentTime) > Math.floor(this.playTime)) {
-					this.$backgroundAudioData.formatedPlayTime = this.formatedPlayTime = util.formatTime(Math.floor(bgAudioMannager.currentTime));
-				}
-				this.$backgroundAudioData.playTime = this.playTime = bgAudioMannager.currentTime;
-			})
+  // 初始化音频管理器
+  const manager = uni.getBackgroundAudioManager()
+  bgAudioManager.value = manager
 
-			this.bgAudioMannager = bgAudioMannager;
-		},
-		methods: {
-			play: function (res) {
-				if (!this.bgAudioMannager.src) {
-					this.bgAudioMannager.startTime = this.playTime;
-					this.bgAudioMannager.src = this.dataUrl;
-				} else {
-					this.bgAudioMannager.seek(this.playTime);
-					this.bgAudioMannager.play();
-				}
-			},
-			seek: function (e) {
-				this.bgAudioMannager.seek(e.detail.value);
-			},
-			pause: function () {
-				this.bgAudioMannager.pause();
-			},
-			stop: function () {
-				this.bgAudioMannager.stop();
-				this.$backgroundAudioData.playing = this.playing = false;
-				this.$backgroundAudioData.playTime = this.playTime = 0;
-				this.$backgroundAudioData.formatedPlayTime = this.formatedPlayTime = util.formatTime(0);
-			}
-		}
-	}
+  // 设置默认元数据
+  if (!manager.title) manager.title = '致爱丽丝'
+  if (!manager.singer) manager.singer = '暂无'
+  if (!manager.coverImgUrl) {
+    manager.coverImgUrl = 'https://web-assets.dcloud.net.cn/unidoc/zh/Alice.jpeg'
+  }
+
+  // 事件监听
+  manager.onPlay(() => {
+    console.log("开始播放")
+    updateGlobalState({ playing: true })
+  })
+
+  manager.onPause(() => {
+    console.log("暂停播放")
+    updateGlobalState({ playing: false })
+  })
+
+  manager.onEnded(() => {
+    updateGlobalState({
+      playing: false,
+      playTime: 0,
+      formatedPlayTime: util.formatTime(0)
+    })
+  })
+
+  manager.onTimeUpdate(() => {
+    const current = Math.floor(manager.currentTime)
+    if (current > Math.floor(playTime.value)) {
+      updateGlobalState({
+        playTime: manager.currentTime,
+        formatedPlayTime: util.formatTime(current)
+      })
+    } else {
+      playTime.value = manager.currentTime
+      proxy.$backgroundAudioData.playTime.value = manager.currentTime
+    }
+  })
+})
+
+// 更新全局状态方法
+const updateGlobalState = ({ 
+  playing: newPlaying = playing.value,
+  playTime: newPlayTime = playTime.value,
+  formatedPlayTime: newFormated = formatedPlayTime.value
+}) => {
+  playing.value = proxy.$backgroundAudioData.playing.value = newPlaying
+  playTime.value = proxy.$backgroundAudioData.playTime.value = newPlayTime
+  formatedPlayTime.value = proxy.$backgroundAudioData.formatedPlayTime.value = newFormated
+}
+
+// 控制方法
+const play = () => {
+  const manager = bgAudioManager.value
+  if (!manager.src) {
+    manager.startTime = playTime.value
+    manager.src = dataUrl.value
+  } else {
+    manager.seek(playTime.value)
+    manager.play()
+  }
+}
+
+const seek = (value) => {
+  bgAudioManager.value.seek(value)
+}
+
+const pause = () => {
+  bgAudioManager.value.pause()
+}
+
+const stop = () => {
+  bgAudioManager.value.stop()
+  updateGlobalState({
+    playing: false,
+    playTime: 0,
+    formatedPlayTime: util.formatTime(0)
+  })
+}
 </script>
 
-<style>
+<style lang="scss" scoped>
 	image {
 		width: 150rpx;
 		height: 150rpx;

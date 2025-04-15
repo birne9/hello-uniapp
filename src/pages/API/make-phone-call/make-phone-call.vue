@@ -10,36 +10,31 @@
 		</view>
 	</view>
 </template>
-<script>
-	export default {
-		data() {
-			return {
-				title: 'makePhoneCall',
-				disabled: true
-			}
-		},
-		methods: {
-			bindInput: function (e) {
-				this.inputValue = e.detail.value
-				if (this.inputValue.length > 0) {
-					this.disabled = false
-				} else {
-					this.disabled = true
-				}
-			},
-			makePhoneCall: function () {
-				uni.makePhoneCall({
-					phoneNumber: this.inputValue,
-					success: () => {
-						console.log("成功拨打电话")
-					}
-				})
-			}
-		}
-	}
+<script setup>
+import { ref } from 'vue'
+
+// 响应式数据
+const title = ref('makePhoneCall')
+const disabled = ref(true)
+const inputValue = ref('') // 新增未在 data 中声明的响应式变量
+
+// 方法
+const bindInput = (e) => {
+  inputValue.value = e.detail.value
+  disabled.value = inputValue.value.length <= 0
+}
+
+const makePhoneCall = () => {
+  uni.makePhoneCall({
+    phoneNumber: inputValue.value,
+    success: () => {
+      console.log("成功拨打电话")
+    }
+  })
+}
 </script>
 
-<style>
+<style lang="scss" scoped>
 	.input {
 		height: 119rpx;
 		line-height: 119rpx;
